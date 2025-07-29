@@ -24,7 +24,7 @@ const HomeUser = () => {
 
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
       <button
-        onClick={() => navigate('/solicitud')}
+        onClick={() => navigate('/Solicitud')}
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
       >
         Solicitud de certificado de nacimiento
