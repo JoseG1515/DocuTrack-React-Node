@@ -25,13 +25,13 @@ export default function HomeAdmin() {
 
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
       <button
-        onClick={() => navigate('/Solicitud')}
+        onClick={() => navigate('/ListaTramites')}
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
       >
         Lista de solicitudes
       </button>
       <button
-        onClick={() => navigate('/listApplication')}
+        onClick={() => navigate('/ListaTramites')}
         className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded"
       >
         Ver estado e historial de solicitudes

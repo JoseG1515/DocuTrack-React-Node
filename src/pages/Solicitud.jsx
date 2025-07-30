@@ -1,13 +1,47 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import Auth from './Auth'
 export default function Solicitud() {
+    Auth();
 const { register, handleSubmit, formState: { errors } } = useForm();
 const onSubmit= async(data)=>{
     alert("se ha iniciado su tramite con exito")
     console.log(data)
+    const fechaNow= new Date(); 
+    const userJSON = localStorage.getItem('user');
+    const User= JSON.parse(userJSON)
+     const formData = new FormData();
+  formData.append("Nombre", data.Nombre);
+  formData.append("FechaNacimiento", data.FechaNacimiento);
+  formData.append("LugarNacimiento", data.LugarNacimiento);
+  formData.append("NombrePadre", data.NombrePadre);
+  formData.append("NombreMadre", data.NombreMadre);
+  formData.append("Genero", data.Genero);
+  formData.append("usuarioId", User.id);
+  formData.append("tipo", User.type);
+  formData.append("fecha_solicitud", fechaNow.toISOString().split("T")[0]);
+
+  // Agrega el archivo
+  formData.append("Documentos", data.Documentos[0]); // solo un archivo
+
+  // Enviar
+  sendData(formData);
 }
 
+const sendData = async (formData) => {
+   try {
+    const response = await fetch('http://localhost:3001/api/Solicitud', {
+      method: 'POST',
+      
+      body: formData,
+    });
 
+    const result = await response.json();
+    console.log('Respuesta del servidor:', result);
+  } catch (error) {
+    console.error('Error al enviar los datos:', error);
+  }
+}
   return (
     <div className="max-w-xl mx-auto bg-gray-100 p-8 mt-10 shadow-md rounded-md">
       <h2 className="text-2xl font-semibold text-center mb-6">Solicitud de certificado de Nacimiento</h2>

@@ -5,6 +5,7 @@ import HomeAdmin from './pages/HomeAdmin';
 import HomeUser from './pages/HomeUser';
 import Solicitud from './pages/solicitud';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import ListaTramites from './pages/ListaTramites';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/HomeAdmin" element={<HomeAdmin />}/>
         <Route path="/HomeUser" element={<HomeUser />} />
         <Route path="/solicitud" element={<Solicitud />}/>
+        <Route path="/ListaTramites" element={<ListaTramites />}/>
       </Routes>
     </BrowserRouter>
   )
