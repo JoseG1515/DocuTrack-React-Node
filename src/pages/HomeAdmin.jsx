@@ -8,10 +8,13 @@ export default function HomeAdmin() {
   console.log('User en HomeUser:', user);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    //localStorage.removeItem('token'); // elimina el JWT del navegador
-    navigate('/login');
-  };
+ const handleLogout = async () => {
+  await fetch('http://localhost:3001/api/HomeAdmin', {
+    method: 'POST',
+    credentials: 'include', // importante si usas cookies
+  });
+  navigate('/login');
+};
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
@@ -30,21 +33,16 @@ export default function HomeAdmin() {
       >
         Lista de solicitudes
       </button>
-      <button
-        onClick={() => navigate('/ListaTramites')}
-        className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded"
-      >
-        Ver estado e historial de solicitudes
-      </button>
-
-      
-      <div className="col-span-1 sm:col-span-2 flex justify-center">
-        <button
+     <button
           onClick={handleLogout}
           className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
         >
           Cerrar Sesión
         </button>
+
+      
+      <div className="col-span-1 sm:col-span-2 flex justify-center">
+        
       </div>
     </div>
 

@@ -49,14 +49,14 @@ console.log('Datos recibidos:', req.body);
     const token=jwt.sign(
       {id: user.id, email:user.correo, type:user.type, nombre: user.nombre},
       jwtSecret,
-      {expiresIn:'1m'}
+      {expiresIn:'2h'}
     );
 
      res.cookie('token', token, {
         httpOnly: true,       // No accesible desde JS frontend
         secure: false,        // Cambiar a true en producción con HTTPS
         sameSite: 'lax',      // Previene CSRF básico
-        maxAge: 60 * 1000, // 2 horas
+        maxAge: 2 * 60 * 60 * 1000, // 2 horas
       });
     //devolviendo datos al frondend sin token
     return res.status(200).json({
@@ -224,6 +224,47 @@ app.put('/api/ListaTramites/:id/estado', async (req, res) => {
     console.error("Error al actualizar estado:", error);
     res.status(500).json({ error: "Error al actualizar estado" });
   }
+});
+
+
+app.get('/api/EstadoTramite/:userId', async (req, res) => {
+  const usuarioId = req.params.userId;
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM tramites WHERE usuario_id = $1 ORDER BY id DESC LIMIT 1',
+      [usuarioId]
+    );
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al obtener los trámites del usuario:', error);
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+});
+
+app.put('/api/EstadoTramite/:id', async (req, res) => {
+  const tramiteId = req.params.id;
+
+  try {
+    await pool.query(
+      'UPDATE tramites SET descargado = $1 WHERE id = $2',
+      ['Si', tramiteId]
+    );
+    res.json({ message: 'Trámite actualizado como descargado' });
+  } catch (error) {
+    console.error('Error al actualizar trámite:', error);
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+});
+
+app.post('/api/HomeUser', (req, res) => {
+  res.clearCookie('token'); // nombre de la cookie
+  res.sendStatus(200);
+});
+
+app.post('/api/HomeAdmin', (req, res) => {
+  res.clearCookie('token'); // nombre de la cookie
+  res.sendStatus(200);
 });
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

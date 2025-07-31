@@ -1,14 +1,17 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+
 
 const Register = () => {
   //uso de atributos de react-hook-form para la captura y validacion de campos del formulario
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
+  const navigate = useNavigate();
   //evento onsubmit y llamado de la funcion para envio al backend  
 const onSubmit=async(data)=>{
   console.log(data)
  sendData(data);
+ navigate('/Login')
 }
  //funcion que envia los datos al backend
  const sendData= async (dataForm)=>{
@@ -22,6 +25,7 @@ const response= await fetch('http://localhost:3001/api/register',{
 
 });
 const result=await response.json();
+
 
 response.ok?alert('Usuario registrado con éxito'): alert('Error: ' + result.message);
   }catch(error){

@@ -1,7 +1,9 @@
 import React from 'react'
 import Auth from './Auth'
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 export default function ListaTramites() {
+    const navigate=useNavigate();
      Auth();
     const [tramites, setTramites] = useState([]);
 
@@ -34,16 +36,24 @@ const actualizarEstado = (id, nuevoEstado) => {
 
     .catch((err) => console.error(err));
 };
-
+ const handleBack = () => {
+    navigate(-1); // -1 es una navegación hacia atrás en el historial
+  };
   return (
     <div className="max-w-4xl mx-auto p-6">
+         <button
+      onClick={handleBack}
+      className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded"
+    >
+      ⬅ Volver
+    </button>
   <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
     📄 Trámites registrados
   </h2>
 
   {tramites.length === 0 ? (
     <div className="bg-yellow-100 text-yellow-800 text-center font-medium px-4 py-3 rounded-lg border border-yellow-300">
-      No hay solicitudes de trámites registradas.
+      No hay solicitudes de trámites en este momento.
     </div>
   ) : (
     <ul className="space-y-4">

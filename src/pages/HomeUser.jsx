@@ -7,10 +7,13 @@ const HomeUser = () => {
   console.log('User en HomeUser:', user);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    //localStorage.removeItem('token'); // elimina el JWT del navegador
-    navigate('/login');
-  };
+  const handleLogout = async () => {
+  await fetch('http://localhost:3001/api/HomeUser', {
+    method: 'POST',
+    credentials: 'include', // importante si usas cookies
+  });
+  navigate('/login');
+};
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
@@ -30,10 +33,10 @@ const HomeUser = () => {
         Solicitud de certificado de nacimiento
       </button>
       <button
-        onClick={() => navigate('/HistoryApplication')}
+        onClick={() => navigate('/EstadoTramite')}
         className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded"
       >
-        Ver estado e historial de solicitudes
+        Ver estado de mi si solicitud
       </button>
 
       

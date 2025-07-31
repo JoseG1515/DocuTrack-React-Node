@@ -1,12 +1,16 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import Auth from './Auth'
+import { useNavigate } from 'react-router-dom';
+
 export default function Solicitud() {
+    const navigate=useNavigate();
     Auth();
 const { register, handleSubmit, formState: { errors } } = useForm();
 const onSubmit= async(data)=>{
     alert("se ha iniciado su tramite con exito")
     console.log(data)
+   
     const fechaNow= new Date(); 
     const userJSON = localStorage.getItem('user');
     const User= JSON.parse(userJSON)
@@ -26,6 +30,7 @@ const onSubmit= async(data)=>{
 
   // Enviar
   sendData(formData);
+  
 }
 
 const sendData = async (formData) => {
@@ -38,12 +43,26 @@ const sendData = async (formData) => {
 
     const result = await response.json();
     console.log('Respuesta del servidor:', result);
+navigate('/HomeUser')
+
   } catch (error) {
     console.error('Error al enviar los datos:', error);
   }
+  
 }
-  return (
+
+const handleBack = () => {
+    navigate(-1); // -1 es una navegación hacia atrás en el historial
+  };
+
+  return (<>
+     <button
+      onClick={handleBack}
+      className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded"
+    > ⬅ Volver
+    </button>
     <div className="max-w-xl mx-auto bg-gray-100 p-8 mt-10 shadow-md rounded-md">
+       
       <h2 className="text-2xl font-semibold text-center mb-6">Solicitud de certificado de Nacimiento</h2>
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <div>
@@ -178,5 +197,6 @@ required:{value:true, message:"se requiere enviar la cedula para confirmar la in
         </div>
       </form>
     </div>
+    </>
   )
 }
